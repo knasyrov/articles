@@ -28,6 +28,7 @@ class ArticlesController < ApplicationController
     @record = Article.new(article_params)
     if @record.save
       flash[:notice] = I18n.t('messages.successfully_created')
+      load_collection
       redirect_to articles_path
     else
       render :new
@@ -37,6 +38,7 @@ class ArticlesController < ApplicationController
   def update
     if @record.update article_params
       flash[:notice] = I18n.t('messages.successfully_updated')
+      load_collection
       redirect_to articles_path
     else
       render action: :edit
