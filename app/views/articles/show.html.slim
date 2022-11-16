@@ -1,0 +1,15 @@
+.container.text-center style='margin-top:20px'
+  .row-fluid.text-end
+    = link_to 'К списку', articles_path
+    p(style="display: inline; color: #8399b9; margin-left: 10px; margin-right: 10px;") |
+    = link_to 'Назад', edit_article_path(@record)
+  .row-fluid
+    h3= @version.title
+  .row-fluid.mt-1.text-end.text-muted
+    .author= @version.author
+    .created_at(style='font-size: 0.85rem')
+      = I18n.l(Time.parse(@version.created_at))
+
+  .row.mt-2
+    = @version.body
+    

@@ -1,0 +1,41 @@
+ru:
+  activerecord:
+    models:
+      article:
+        one: Статья
+        other: Статьи
+    attributes:
+      article:
+        id: ID
+        title: Заголовок
+        body: Содержимое
+        author: Автор
+        created_at: Дата создания
+
+    errors:
+      models:
+        article:
+          attributes:
+            author:
+              blank: Должен быть заполнен
+            title:
+              blank: Должен быть заполнен
+
+  time:
+    formats:
+      default: '%d.%m.%g %H:%M'
+  date:
+    formats:
+      default: '%d.%m.%g %H:%M'
+
+  messages:
+    successfully_created: Успешно создано
+    successfully_updated: Успешно обновлено
+
+  views:
+    pagination:
+      first: Первая
+      truncate: 
+      last: Последняя
+      next: Следующая
+      previous: Предыдущая

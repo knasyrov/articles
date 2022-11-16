@@ -1,0 +1,20 @@
+.container.text-center.mt-5
+  .row-fluid
+    h3= @record.new_record? ? 'Новая статья' : 'Изменение записи'
+
+  = bootstrap_form_for @record, layout: :horizontal do |f|
+    = f.text_field :title
+    = f.text_field :author
+    = f.text_area :body, rows: 10        
+    = f.form_group add_control_col_class: 'text-start' do
+      = f.submit 'Сохранить'
+      = link_to 'Отмена', :back, class: 'ms-2'
+
+    - if @record.versions.any?
+      .row-fluid
+        .card.mt-5.float-end style="width: 500px"
+          .card-header Предыдущие версии
+          ul.list-group.list-group-flush
+            - @record.versions.each_with_index do |version, index|
+              - object = version.object.symbolize_keys
+              li.list-group-item= link_to "#{object[:title]} - версия от #{I18n.l(Time.parse(object[:updated_at]))}", article_path(@record, version: index)

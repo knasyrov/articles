@@ -1,0 +1,49 @@
+.container.text-center style='margin-top:20px'
+  .row-fluid
+    h3= Article.model_name.human(count: 2)
+  .row
+    .col-9.row-fluid.text-end
+      = bootstrap_form_tag url: articles_path, method: :get do |f|
+        = f.text_field :query, value: @query, hide_label: true, prepend: 'Поиск', append: f.primary('Найти'), input_group_class: 'input-group-sm'
+    .col-3.text-end
+      = link_to 'Очистить', articles_path, class: 'btn btn-sm btn-light'
+      = link_to 'Добавить запись', new_article_path, type: 'button', class: 'btn btn-primary btn-sm ms-1'
+  .row.mt-1
+    .col-12.text-end
+      
+
+  - flash.each do |key, value|
+    div class="#{flash_class(key)} mt-2"
+      = value
+
+  .row.mt-2 
+    hr
+
+  - if @collection.any?
+    .row
+      = paginate @collection, theme: 'bootstrap-5', pagination_class: "pagination-sm flex-wrap justify-content-end", nav_class: "d-inline-block"
+
+    .row
+      table.table.table-stripped.table-hover.table-bordered.table-sm
+        thead 
+          th= Article.human_attribute_name(:id) 
+          th= Article.human_attribute_name(:author) 
+          th= Article.human_attribute_name(:title) 
+          th= Article.human_attribute_name(:created_at)
+        tbody
+          - @collection.each do |article|
+            tr
+              td= article.id 
+              td
+                b= article.author
+              td= link_to article.title, edit_article_path(article)
+              td= I18n.l(article.created_at)
+
+
+    .row
+      = paginate @collection, theme: 'bootstrap-5', pagination_class: "pagination-sm flex-wrap justify-content-end", nav_class: "d-inline-block"
+     
+
+    
+
+
