@@ -4,6 +4,8 @@ ENV LANG=ru_RU.UTF-8 \
     LC_ALL=ru_RU.UTF-8 \
     LANGUAGE=ru_RU.UTF-8
 
+
+
 RUN apt-get update -qq && apt-get install -yq --no-install-recommends \
     build-essential \
     git \
@@ -13,7 +15,18 @@ RUN apt-get update -qq && apt-get install -yq --no-install-recommends \
     wget \
     telnet \
     libpq-dev \
+    curl \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+RUN apt-get install nodejs
+
+RUN curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | tee /usr/share/keyrings/yarnkey.gpg >/dev/null
+RUN echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian stable main" | tee /etc/apt/sources.list.d/yarn.list
+RUN apt-get update && apt-get install yarn
+
+RUN node -v
+
 
 ENV APP_NAME /articles
 RUN mkdir /$APP_NAME
@@ -32,5 +45,5 @@ RUN gem install bundler \
 
 COPY . /$APP_NAME
 
-EXPOSE 3001
+EXPOSE 3000
 ENTRYPOINT ["./entrypoint.sh"]
