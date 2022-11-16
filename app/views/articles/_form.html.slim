@@ -16,5 +16,7 @@
           .card-header Предыдущие версии
           ul.list-group.list-group-flush
             - @record.versions.each_with_index do |version, index|
-              - object = version.object.symbolize_keys
-              li.list-group-item= link_to "#{object[:title]} - версия от #{I18n.l(Time.parse(object[:updated_at]))}", article_path(@record, version: index)
+              - object = version.object
+              - if object
+                - object = object.symbolize_keys
+                li.list-group-item= link_to "#{object[:title]} - версия от #{I18n.l(Time.parse(object[:updated_at]))}", article_path(@record, version: index)
