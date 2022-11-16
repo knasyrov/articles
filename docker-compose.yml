@@ -39,7 +39,8 @@ services:
       - 3001:3001
     env_file: .env
     environment:
-      RAILS_ENV: development   
+      RAILS_ENV: development
+      ELASTICSEARCH_URL: http://elastic:9200   
     networks:
       - articles-net       
     depends_on:
