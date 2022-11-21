@@ -4,8 +4,8 @@
 
   = bootstrap_form_for @record, layout: :horizontal do |f|
     = f.text_field :title
-    = f.text_field :author
-    = f.text_area :body, rows: 10        
+    = f.text_field :author, disabled: !@record.new_record?
+    = f.text_area :body, rows: 10, disabled: !@record.new_record?        
     = f.form_group add_control_col_class: 'text-start' do
       = f.submit 'Сохранить'
       = link_to 'Отмена', :back, class: 'ms-2'

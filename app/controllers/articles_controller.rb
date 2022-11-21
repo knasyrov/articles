@@ -31,17 +31,17 @@ class ArticlesController < ApplicationController
       load_collection
       redirect_to articles_path
     else
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
 
   def update
-    if @record.update article_params
+    if @record.update update_params
       flash[:notice] = I18n.t('messages.successfully_updated')
       load_collection
       redirect_to articles_path
     else
-      render action: :edit
+      render action: :edit, status: :unprocessable_entity
     end    
   end
 
@@ -51,21 +51,30 @@ class ArticlesController < ApplicationController
     params.require(:article).permit(:title, :author, :body)
   end
 
+  def update_params
+    params.require(:article).permit(:title)
+  end
+
   def version_param(param_name: :version)
     params[param_name].to_i.positive? ? params[param_name].to_i : :last
   end
 
   def query_param
-    @query ||= params[:query].blank? ? '*' : params[:query]
+    @query ||= params[:query]
   end
 
 
   def load_record
-    object = controller_name.classify.constantize.find(params[:id])
-    instance_variable_set("@record", object)
+    @record = Article.find(params[:id])
   end
   
   def load_collection
-    @collection = Article.search(query_param, limit: per_page_parameter, offset: per_page_parameter*(page_parameter-1))
+    @collection = Article.search('*', 
+                                  #fields: [:title],
+                                  where: {
+                                    title: {like: "%#{query_param}%"}
+                                  },
+                                  limit: per_page_parameter, 
+                                  offset: per_page_parameter*(page_parameter-1))
   end
 end
