@@ -8,7 +8,7 @@
     = f.text_area :body, rows: 10, disabled: !@record.new_record?        
     = f.form_group add_control_col_class: 'text-start' do
       = f.submit 'Сохранить'
-      = link_to 'Отмена', :back, class: 'ms-2'
+      = link_to 'Отмена', :articles, class: 'ms-2'
 
     - if @record.versions.any?
       .row-fluid
